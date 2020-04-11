@@ -10,6 +10,7 @@ function App() {
   return (
     <div style={{ width: "100%", height: "100%", padding: 20 }}>
       <Grid container spacing={4} direction="column">
+        <h1 className="App-header"> Welcome to EcoMe </h1> 
         <Grid item>
           <Example1 />
         </Grid>

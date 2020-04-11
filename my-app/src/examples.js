@@ -10,6 +10,7 @@ const styles = {
   },
 };
 
+// user log in credentials
 export const Example1 = () => (
   <div style={styles.outer}>
     <Grid container spacing={2} direction="row">
@@ -18,19 +19,15 @@ export const Example1 = () => (
         <input />
       </Grid>
       <Grid item sm={6} xs={12}>
-        <div>First Name</div>
-        <input />
-      </Grid>
-      <Grid item sm={6} xs={12}>
         <div>Last Name</div>
         <input />
       </Grid>
       <Grid item sm={6} xs={12}>
-        <div>Last Name</div>
+        <div>Email Address</div>
         <input />
       </Grid>
       <Grid item sm={6} xs={12}>
-        <div>Last Name</div>
+        <div>University</div>
         <input />
       </Grid>
     </Grid>
