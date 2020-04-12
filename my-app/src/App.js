@@ -1,30 +1,46 @@
 import React from 'react';
 import './App.css';
 import Grid from "react-fast-grid";
-import { Example1, Example2, Example3, Example4 } from './examples';
+import { Example1, Plastic, WaterUsage, Food, Transportation, Results } from './examples';
 
+//npm install --save typescript @types/node @types/react @types/react-dom @types/jest
 
-// npm WARN tsutils@3.17.1 requires a peer of typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta but none is installed. You must install peer dependencies yourself.
+function nameForm()
+{
+var input = document.getEormlementById("userInput");
+alert(input);
+}
 
 function App() {
   return (
-    <div style={{ width: "100%", height: "100%", padding: 20 }}>
-      <Grid container spacing={4} direction="column">
+    <div style={{ width: "100%", height: "100%", padding: 20, justifyContent: "center" }}>
+      <Grid container spacing={4} direction="column" xs={10}>
         <h1 className="App-header"> Welcome to EcoMe </h1> 
         <Grid item>
           <Example1 />
         </Grid>
-        <Grid item>
-          <Example2 />
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item xs>
+            <Plastic />
+          </Grid>
+          <Grid item xs>
+            <WaterUsage />
+          </Grid>
+          <Grid xs>
+            <Food />
+          </Grid>
+          <Grid xs>
+            <Transportation />
+          </Grid>
         </Grid>
-        <Grid item>
-          <Example3 />
-        </Grid>
-        <Grid item>
-          <Example4 />
+        <Grid container direction="row" justify="center">
+          <Results />
         </Grid>
       </Grid>
     </div>
   );
 }
+
+
+
 export default App;
