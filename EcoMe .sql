@@ -254,10 +254,12 @@ BEGIN
 	JOIN transport ON users.transport = transport.transportid
 	);
     
-	SELECT pid, (tbags + recycle_point + disposable_point + 
+	SELECT 		users.pid AS UserID, users.first_name, users.last_name, 
+				(tbags + recycle_point + disposable_point + 
 				plantbased_point + finishfood_point + meat_point +
                 total_water + eui_point + transmode_point + translength_point) AS EcoScore
     FROM total_points
+    JOIN users ON total_points.pid = users.pid
     ORDER BY EcoScore; 
 
 END//
