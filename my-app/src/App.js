@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import ReactDOM from 'react-dom';
 import Grid from "react-fast-grid";
 import { Example1, Plastic, WaterUsage, Food, Transportation, Results } from './examples';
 
 //npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+//npm i react-charts --save
+//npm i react-chartjs-2 --save--dev
+//npm i reactstrap
 
 function nameForm()
 {
@@ -11,36 +15,62 @@ var input = document.getEormlementById("userInput");
 alert(input);
 }
 
+
 function App() {
   return (
-    <div style={{ width: "100%", height: "100%", padding: 20, justifyContent: "center" }}>
-      <Grid container spacing={4} direction="column" xs={10}>
+    <div style={{width: "80%",
+     height: "100%", 
+     padding: 20, 
+     margin: "0 auto", 
+     backgroundColor: "white",
+     color: "black"}} >
+      <Grid container spacing={5} direction="column" xs={12}>
         <h1 className="App-header"> Welcome to EcoMe </h1> 
         <Grid item>
           <Example1 />
         </Grid>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item xs>
+        <Grid container direction="row" justify="space-around" item spacing={4} >
+          <Grid item xs={3} alignContent="stretch">
             <Plastic />
           </Grid>
-          <Grid item xs>
+          <Grid item xs={3} alignContent="stretch">
             <WaterUsage />
           </Grid>
-          <Grid xs>
+          <Grid item xs={3} alignContent="stretch" >
             <Food />
           </Grid>
-          <Grid xs>
+          <Grid item xs={3} alignContent="stretch">
             <Transportation />
           </Grid>
         </Grid>
-        <Grid container direction="row" justify="center">
-          <Results />
+        <Grid item justify="center">
+          <button style={{
+            background: "teal", 
+            color:"white", 
+            width: 200, 
+            height: 90, 
+            boxShadow: "0 10px 30px #BBB",
+            borderRadius: 20,
+            fontSize: 20,
+            }} 
+            onClick={GetResult}>
+              Submit
+          </button>
         </Grid>
       </Grid>
     </div>
   );
 }
 
-
+function GetResult() {
+  return (
+  ReactDOM.render(  
+      <Grid container item direction="column" justify="flex-start" alignItems="stretch">
+        <Results />
+      </Grid>,
+      document.getElementById('root')
+    )
+  )
+}
 
 export default App;

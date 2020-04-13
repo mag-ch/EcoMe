@@ -1,6 +1,8 @@
 import * as React from "react";
 import Grid from "react-fast-grid";
 import { IoIosCheckmarkCircleOutline, IoMdMenu } from "react-icons/io";
+import {Bar} from "react-chartjs-2";
+import event from 'react';
 
 const styles = {
   outer: {
@@ -10,45 +12,55 @@ const styles = {
   },
 };
 
+state = {
+  firstname: '',
+  lastname: ''
+}
+
+
 // user log in credentials
 // stors first name, last name, email
 export const Example1 = () => (
   <div style={styles.outer}>
-    <Grid container spacing={2} direction="row">
-      <Grid item xs={12}>
-        <h1>User Info</h1>
-      </Grid>
-      <Grid item sm={10}>
+   <Grid item xs={12}>
+     <h1 >User Info</h1>
+   </Grid>
+    <Grid container spacing={5} direction="row" justify="flex-start" >
+      <Grid item >
         <div>First Name</div>
-        <input />
+        <input type="text" name="fname" onChange={
+          this.setState({
+            [event.target.firstname]: event.target.value
+        })
+        } />
       </Grid>
-      <Grid item sm={10}>
+      <Grid item >
         <div>Last Name</div>
         <input />
       </Grid>
-      <Grid item sm={10}>
+      <Grid item >
         <div>Email Address</div>
         <input />
       </Grid>
-      <Grid item sm={10}>
+      <Grid item >
         <div>Graduating Class</div>
         <input />
       </Grid>
     </Grid>
-    <Grid container spacing={2} direction="row">
-      <Grid item sm={6}>
+    <Grid container spacing={5} direction="row" justify="flex-start" >
+      <Grid item >
         <div>University</div>
         <input />
       </Grid>
-      <Grid item sm={6}>
+      <Grid item >
         <div>Gender</div>
         <input />
       </Grid>
-      <Grid item sm={6} >
+      <Grid item >
         <div>Building Type</div>
         <input />
       </Grid>
-      <Grid item sm={6}>
+      <Grid item >
         <div>Major</div>
         <input />
       </Grid>
@@ -59,28 +71,28 @@ export const Example1 = () => (
 // water usage, shower time, dishwashing
 export const Plastic = () => (
   <div style={styles.outer}>
-    <Grid container justify="space-between">
-      <Grid container xs spacing={1} justify="flex-start"
-      justify="center" alignItems="center" >
-      <h1 >Plastic Consumption</h1>
-        <Grid sm={6} item xs={12}>
+    <Grid container justify="center">
+      <Grid container direction="column" spacing={1} justify="stretch" alignContent="stretch" >
+        <div>
+          <h1>Plastic Consumption</h1>
+          <h3 >(per week)</h3>
+        </div>
+        <Grid item>
           <div>Recycling</div>
           <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div>Trashbags</div>
+        <Grid item>
+          <div>Single-use plastic bags</div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div>Plastic bottles</div>
+        <Grid item >
+          <div>Single-use plastic bottles</div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div>Food delivery</div>
+        <Grid item >
+          <div>Plastic disposable straws</div>
         <input />
         </Grid>
-      </Grid>
-      <Grid item justify="flex-end" alignItems="center">
       </Grid>
     </Grid>
   </div>
@@ -89,28 +101,28 @@ export const Plastic = () => (
 // water usage, shower time, dishwashing
 export const WaterUsage = () => (
   <div style={styles.outer}>
-    <Grid container justify="space-between">
-      <Grid container xs spacing={1} justify="flex-start"
-      justify="center" alignItems="center" >
-      <h1 >Water Usage</h1>
-        <Grid sm={6} item xs={12}>
-          <div>How long are your showers?</div>
+    <Grid container justify="center">
+      <Grid container direction="column" spacing={1} alignItems="stretch" >
+        <div>
+          <h1>Water Usage</h1>
+          <h3 >(per day)</h3>
+        </div>
+        <Grid item >
+          <div>How many minutes long are your showers?</div>
           <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div>How many dishes do you wash?</div>
+        <Grid item >
+          <div>Minutes washing dishes</div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div>How many times do you flush the toilet?</div>
+        <Grid item >
+          <div>Number of toilet flushes</div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div>How many times do you do laungry?</div>
+        <Grid item >
+          <div>Laundry cycles (per week)</div>
         <input />
         </Grid>
-      </Grid>
-      <Grid item justify="flex-end" alignItems="center">
       </Grid>
     </Grid>
   </div>
@@ -119,24 +131,21 @@ export const WaterUsage = () => (
 //food consumption
 export const Food = () => (
   <div style={styles.outer}>
-    <Grid container justify="space-between">
-      <Grid container xs spacing={1} justify="flex-start"
-      justify="center" alignItems="center" >
-      <h1 >Food</h1>
-        <Grid sm={6} item xs={12}>
-          <div>plant based?</div>
+    <Grid container justify="center">
+      <Grid container direction="column" spacing={1} justify="flex-start" alignItems="stretch" >
+          <h1 >Food</h1>
+        <Grid item >
+          <div>How many servings of meat do you consume per day?</div>
           <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
+        <Grid item >
           <div> organic? </div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <div> food waste</div>
+        <Grid item >
+          <div> food waste per day</div>
         <input />
         </Grid>
-      </Grid>
-      <Grid item justify="flex-end" alignItems="center">
       </Grid>
     </Grid>
   </div>
@@ -145,28 +154,25 @@ export const Food = () => (
 //transportation
 export const Transportation = () => (
   <div style={styles.outer}>
-    <Grid container justify="space-between">
-      <Grid container xs spacing={1} justify="flex-start"
-      justify="center" alignItems="center" >
-      <h1 >Transportation</h1>
-        <Grid sm={6} item xs={12}>
-          <div>car?</div>
-          <input />
+    <Grid container justify="center">
+      <Grid container xs spacing={1} direction="column" justify="flex-start" alignItems="stretch">
+      <h1>Transportation</h1>
+        <Grid item >
+          <div>How many miles do you drive in a car per week?</div>
+          <input id="milesdriven"/>
         </Grid>
-        <Grid item sm={6} xs={12}>
+        <Grid item >
           <div> public transport? </div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
+        <Grid item >
           <div> length of commute</div>
         <input />
         </Grid>
-        <Grid item sm={6} xs={12}>
+        <Grid item >
           <div> yearly flights</div>
         <input />
         </Grid>
-      </Grid>
-      <Grid item justify="flex-end" alignItems="center">
       </Grid>
     </Grid>
   </div>
@@ -212,12 +218,39 @@ export const Example3 = () => (
   </Grid>
 );
 
+const state = {
+  labels: ['January', 'February', 'March',
+           'April', 'May'],
+  datasets: [
+    {
+      label: 'Rainfall',
+      backgroundColor: 'rgba(75,192,192,1)',
+      borderColor: 'rgba(0,0,0,1)',
+      borderWidth: 2,
+      data: [this.state.firstname, 59, 80, 81, 56]
+    }
+  ]
+}
 
 // graphical analysis, comparison to US averages
 export const Results = () => (
   <div style={styles.outer}>
-    <Grid container spacing={2} direction="row" xs={12}>
-      <h1>Results</h1>
-    </Grid>
+    <Grid container direction="column" justify="flex-start" alignItems="stretch">
+        <h1>this.milesdriven</h1>
+        <Bar 
+          data={state}
+          options={{
+            title:{
+              display:true,
+              text:'Average Rainfall per month',
+              fontSize:20
+            },
+            legend:{
+              display:true,
+              position:'right'
+            }
+          }}
+        />
+     </Grid>
   </div>
 );
