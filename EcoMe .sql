@@ -199,3 +199,68 @@ SELECT users.pid, users.first_name, users.last_name, users.age, class.yeargrad, 
                         JOIN transport ON users.transport = transport.transportid
                         JOIN waste ON users.waste = waste.wasteid
                         JOIN major ON users.major = major.majorid;
+
+DROP PROCEDURE IF EXISTS total_score;
+DELIMITER //
+CREATE PROCEDURE total_score 
+()
+
+BEGIN
+	DROP TABLE IF EXISTS total_points;
+	CREATE TABLE total_points (
+		SELECT 	pid, waste.tbags AS tbags, 
+			CASE
+				when waste.recycle = "yes" then 0
+				else 1
+			END AS recycle_point,
+			CASE
+				when waste.disposable = "yes" then 1
+				else 0
+			END AS disposable_point, 
+			CASE
+				WHEN food.plant = "yes" then 0
+				ELSE 1
+			END AS plantbased_point,
+			CASE
+				WHEN food.finishfood = "yes" then 0
+				ELSE 1
+			END AS finishfood_point,
+			CASE
+				WHEN food.meat = "often" then 3
+				WHEN food.meat = "occasionally" then 2
+				WHEN food.meat = "rarely" then 1
+				WHEN food.meat = "never" then 0
+			END AS meat_point, 
+			((water.shower * 2) + (water.dishes * 6)) as total_water,
+			building.eui AS eui_point,
+			CASE
+				WHEN transport.pmode = "walk" THEN 0
+				WHEN transport.pmode = "bike" THEN 0
+				WHEN transport.pmode = "bus" THEN 1
+				WHEN transport.pmode = "train" THEN 2
+				WHEN transport.pmode = "car" THEN 3
+			END AS transmode_point,
+			CASE 
+				WHEN transport.length = "0-20" THEN 0
+				WHEN transport.length = "20-40" THEN 1
+				WHEN transport.length = "40-60" THEN 2
+				WHEN transport.length = "more than 60" THEN 3
+			END AS translength_point
+	FROM users
+	JOIN waste ON users.waste = waste.wasteid
+	JOIN food ON users.food = food.foodid
+	JOIN water ON users.water = water.waterid
+	JOIN building ON users.building = building.bid
+	JOIN transport ON users.transport = transport.transportid
+	);
+    
+	SELECT pid, (tbags + recycle_point + disposable_point + 
+				plantbased_point + finishfood_point + meat_point +
+                total_water + eui_point + transmode_point + translength_point) AS EcoScore
+    FROM total_points
+    ORDER BY EcoScore; 
+
+END//
+DELIMITER ;
+
+CALL total_score();
