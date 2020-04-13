@@ -12,10 +12,10 @@ const styles = {
   },
 };
 
-state = {
-  firstname: '',
-  lastname: ''
-}
+// state = {
+//   firstname: '',
+//   lastname: ''
+// }
 
 
 // user log in credentials
@@ -29,9 +29,10 @@ export const Example1 = () => (
       <Grid item >
         <div>First Name</div>
         <input type="text" name="fname" onChange={
-          this.setState({
-            [event.target.firstname]: event.target.value
-        })
+        //   this.setState({
+        //     [event.target.firstname]: event.target.value
+        // })
+        Results
         } />
       </Grid>
       <Grid item >
@@ -227,7 +228,7 @@ const state = {
       backgroundColor: 'rgba(75,192,192,1)',
       borderColor: 'rgba(0,0,0,1)',
       borderWidth: 2,
-      data: [this.state.firstname, 59, 80, 81, 56]
+      data: [72, 59, 80, 81, 56]
     }
   ]
 }
@@ -236,7 +237,7 @@ const state = {
 export const Results = () => (
   <div style={styles.outer}>
     <Grid container direction="column" justify="flex-start" alignItems="stretch">
-        <h1>this.milesdriven</h1>
+        <h1>Results</h1>
         <Bar 
           data={state}
           options={{

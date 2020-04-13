@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import ReactDOM from 'react-dom';
 import Grid from "react-fast-grid";
@@ -9,11 +9,28 @@ import { Example1, Plastic, WaterUsage, Food, Transportation, Results } from './
 //npm i react-chartjs-2 --save--dev
 //npm i reactstrap
 
-function nameForm()
-{
-var input = document.getEormlementById("userInput");
-alert(input);
-}
+// class FormComponent extends Component {
+//   state = {
+//     email: '',
+//     password: ''
+//   };
+
+//   handleOnChange = event => {
+//     this.setState({
+//         [event.target.name]: event.target.value
+//     })
+//   }
+//   render() {
+//     return (
+//         <form>
+//             <label>Email</label>
+//             <input type="text" name="email" onChange={this.handleOnChange} />
+//             <label>Password</label>
+//             <input type="password" name="password" onChange={this.handleOnChange} />
+//         </form>
+//     )
+//   }
+// }
 
 
 function App() {
