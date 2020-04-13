@@ -254,12 +254,15 @@ BEGIN
 	JOIN transport ON users.transport = transport.transportid
 	);
     
-	SELECT 		users.pid AS UserID, users.first_name, users.last_name, 
+	SELECT 		users.pid AS UserID, users.first_name AS FirstName, users.last_name AS LastName,
+				users.age AS Age, users.gender AS Sex, users.email AS Email, 
+                building.address AS Residence, building.eui AS EUI,
 				(tbags + recycle_point + disposable_point + 
 				plantbased_point + finishfood_point + meat_point +
                 total_water + eui_point + transmode_point + translength_point) AS EcoScore
     FROM total_points
     JOIN users ON total_points.pid = users.pid
+    JOIN building ON users.building = building.bid
     ORDER BY EcoScore; 
 
 END//
