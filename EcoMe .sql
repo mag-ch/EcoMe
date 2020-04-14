@@ -264,8 +264,15 @@ BEGIN
     JOIN users ON total_points.pid = users.pid
     JOIN building ON users.building = building.bid
     ORDER BY EcoScore; 
+    
+    SELECT avg(tbags + recycle_point + disposable_point + 
+				plantbased_point + finishfood_point + meat_point +
+                total_water + eui_point + transmode_point + translength_point) AS avgScore
+	FROM total_points;
 
 END//
 DELIMITER ;
 
 CALL total_score();
+
+
