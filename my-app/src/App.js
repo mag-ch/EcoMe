@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import ReactDOM from 'react-dom';
 import Grid from "react-fast-grid";
-import { Example1, Plastic, WaterUsage, Food, Transportation, Results } from './examples';
+import { Example1, Plastic, WaterUsage, Food, Transportation } from './examples';
+import { Graph, Results} from './results';
 
 //npm install --save typescript @types/node @types/react @types/react-dom @types/jest
 //npm i react-charts --save
@@ -11,26 +12,19 @@ import { Example1, Plastic, WaterUsage, Food, Transportation, Results } from './
 
 // class FormComponent extends Component {
 //   state = {
+//     firstname: '',
 //     email: '',
 //     password: ''
 //   };
+// }
 
 //   handleOnChange = event => {
 //     this.setState({
 //         [event.target.name]: event.target.value
 //     })
 //   }
-//   render() {
-//     return (
-//         <form>
-//             <label>Email</label>
-//             <input type="text" name="email" onChange={this.handleOnChange} />
-//             <label>Password</label>
-//             <input type="password" name="password" onChange={this.handleOnChange} />
-//         </form>
-//     )
-//   }
 // }
+
 
 
 function App() {
@@ -83,7 +77,8 @@ function GetResult() {
   return (
   ReactDOM.render(  
       <Grid container item direction="column" justify="flex-start" alignItems="stretch">
-        <Results />
+        <Graph />
+        <h1 className="header" width="10px"> <Results/> </h1>
       </Grid>,
       document.getElementById('root')
     )

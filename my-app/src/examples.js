@@ -12,10 +12,10 @@ const styles = {
   },
 };
 
-// state = {
-//   firstname: '',
-//   lastname: ''
-// }
+var state = {
+  firstname: '',
+  lastname: ''
+}
 
 
 // user log in credentials
@@ -28,12 +28,7 @@ export const Example1 = () => (
     <Grid container spacing={5} direction="row" justify="flex-start" >
       <Grid item >
         <div>First Name</div>
-        <input type="text" name="fname" onChange={
-        //   this.setState({
-        //     [event.target.firstname]: event.target.value
-        // })
-        Results
-        } />
+        <input type="text" name="fname" />
       </Grid>
       <Grid item >
         <div>Last Name</div>
@@ -219,7 +214,7 @@ export const Example3 = () => (
   </Grid>
 );
 
-const state = {
+const resultData = {
   labels: ['January', 'February', 'March',
            'April', 'May'],
   datasets: [
@@ -239,7 +234,7 @@ export const Results = () => (
     <Grid container direction="column" justify="flex-start" alignItems="stretch">
         <h1>Results</h1>
         <Bar 
-          data={state}
+          data={resultData}
           options={{
             title:{
               display:true,
