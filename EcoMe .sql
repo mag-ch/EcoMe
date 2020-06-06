@@ -21,26 +21,26 @@ USE EcoMe;
 CREATE TABLE IF NOT EXISTS waste
 (
 	wasteid 		INT 	PRIMARY KEY 	AUTO_INCREMENT,
-    recycle		BOOLEAN,
+    recycle		VARCHAR(45),
     tbags		INT,
-    disposable	BOOLEAN
+    disposable	VARCHAR(45)
 );
 
 INSERT INTO waste VALUES
-(1, TRUE, 2, FALSE),
-(2, TRUE, 3, TRUE),
-(3, TRUE, 0, FALSE),
-(4, TRUE, 2, TRUE),
-(5, TRUE, 6, FALSE),
-(6, FALSE, 4, TRUE),
-(7, FALSE, 3, FALSE),
-(8, FALSE, 6, TRUE),
-(9, FALSE, 6, FALSE),
-(10, FALSE, 10, TRUE);
+(1, "yes", 2, "no"),
+(2, "yes", 3, "yes"),
+(3, "yes", 0, "no"),
+(4, "yes", 2, "yes"),
+(5, "yes", 6, "no"),
+(6, "no", 4, "yes"),
+(7, "no", 3, "no"),
+(8, "no", 6, "yes"),
+(9, "no", 6, "no"),
+(10, "no", 10, "yes");
 
 CREATE TABLE IF NOT EXISTS water
 (
-	waterid		INT 	PRIMARY KEY,
+	waterid		INT 	PRIMARY KEY		AUTO_INCREMENT,
     shower		INT,
     dishes		INT
 );
@@ -60,22 +60,22 @@ INSERT INTO water VALUES
 CREATE TABLE IF NOT EXISTS food
 (
 	foodid 		INT 	PRIMARY KEY 	AUTO_INCREMENT,
-    plant		BOOLEAN,
-    finishfood	BOOLEAN,
+    plant		VARCHAR(45),
+    finishfood	VARCHAR(45),
     meat		varchar(100)
 );
 
 INSERT INTO food VALUES
-(1, TRUE, FALSE, "never"),
-(2, TRUE, TRUE, "rarely"),
-(3, TRUE, FALSE, "occasionally"),
-(4, TRUE, TRUE, "never"),
-(5, TRUE, FALSE, "occasionally"),
-(6, FALSE, TRUE, "often"),
-(7, FALSE, FALSE, "occasionally"),
-(8, FALSE, TRUE, "often"),
-(9, FALSE, FALSE, "occasionally"),
-(10, FALSE, TRUE, "often");
+(1, "yes", "no", "never"),
+(2, "yes", "yes", "rarely"),
+(3, "yes", "no", "occasionally"),
+(4, "yes", "yes", "never"),
+(5, "yes", "no", "occasionally"),
+(6, "no", "yes", "often"),
+(7, "no", "no", "occasionally"),
+(8, "no", "yes", "often"),
+(9, "no", "no", "occasionally"),
+(10, "no", "yes", "often");
 
 CREATE TABLE IF NOT EXISTS transport
 (
@@ -117,18 +117,18 @@ INSERT INTO major VALUES
 CREATE TABLE IF NOT EXISTS class
 (
 	classid 	INT 	PRIMARY KEY 	AUTO_INCREMENT,
-    yeargrad	YEAR
+    yeargrad	VARCHAR(25)
 );
 
 INSERT INTO class VALUES
-(1, 2018),
-(2, 2019),
-(3, 2020),
-(4, 2021),
-(5, 2022),
-(6, 2023),
-(7, 2024),
-(8, 2025);
+(1, "2018"),
+(2, "2019"),
+(3, "2020"),
+(4, "2021"),
+(5, "2022"),
+(6, "2023"),
+(7, "2024"),
+(8, "2025");
 
 CREATE TABLE IF NOT EXISTS users
 (
@@ -168,6 +168,7 @@ CREATE TABLE IF NOT EXISTS users
         REFERENCES major (majorid)
 );
 
+SELECT * FROM users;
 INSERT INTO users VALUES
 (1, "John", "Smith", 19, 6, "smith.j@husky.neu.edu", "male", 1, 1, 1, 1, 1, 1),
 (2, "Lucy", "Lee", 20, 5, "Lee.l@husky.neu.edu", "female", 2, 2, 2, 2, 2, 2),
@@ -180,3 +181,110 @@ INSERT INTO users VALUES
 (9, "Peter", "Person", 21, 4, "Person.p@husky.neu.edu", "male", 6, 9, 9, 9, 9, 9),
 (10, "Georgia", "Greg", 20, 5, "Georgia.g@husky.neu.edu", "female", 2, 10, 10, 10, 10, 10);
 
+SELECT users.pid, users.first_name, users.last_name, users.age, class.yeargrad, users.email, users.gender, building.address, building.eui
+						FROM building JOIN users ON users.building = building.bid
+						JOIN class ON users.grade = class.classid
+                        JOIN water ON users.water = water.waterid
+                        JOIN food ON users.food = food.foodid
+                        JOIN transport ON users.transport = transport.transportid
+                        JOIN waste ON users.waste = waste.wasteid
+                        JOIN major ON users.major = major.majorid
+                        ORDER BY users.pid;
+                        
+                        SELECT *
+						FROM building JOIN users ON users.building = building.bid
+						JOIN class ON users.grade = class.classid
+                        JOIN water ON users.water = water.waterid
+                        JOIN food ON users.food = food.foodid
+                        JOIN transport ON users.transport = transport.transportid
+                        JOIN waste ON users.waste = waste.wasteid
+                        JOIN major ON users.major = major.majorid;
+
+DROP PROCEDURE IF EXISTS total_score;
+DELIMITER //
+CREATE PROCEDURE total_score 
+()
+
+BEGIN
+	DROP TABLE IF EXISTS total_points;
+	CREATE TABLE total_points (
+		SELECT 	pid, waste.tbags AS tbags, 
+			CASE
+				when waste.recycle = "yes" then 0
+				else 1
+			END AS recycle_point,
+			CASE
+				when waste.disposable = "yes" then 1
+				else 0
+			END AS disposable_point, 
+			CASE
+				WHEN food.plant = "yes" then 0
+				ELSE 1
+			END AS plantbased_point,
+			CASE
+				WHEN food.finishfood = "yes" then 0
+				ELSE 1
+			END AS finishfood_point,
+			CASE
+				WHEN food.meat = "often" then 3
+				WHEN food.meat = "occasionally" then 2
+				WHEN food.meat = "rarely" then 1
+				WHEN food.meat = "never" then 0
+			END AS meat_point, 
+			((water.shower * 2) + (water.dishes * 6)) as total_water,
+			building.eui AS eui_point,
+			CASE
+				WHEN transport.pmode = "walk" THEN 0
+				WHEN transport.pmode = "bike" THEN 0
+				WHEN transport.pmode = "bus" THEN 1
+				WHEN transport.pmode = "train" THEN 2
+				WHEN transport.pmode = "car" THEN 3
+			END AS transmode_point,
+			CASE 
+				WHEN transport.length = "0-20" THEN 0
+				WHEN transport.length = "20-40" THEN 1
+				WHEN transport.length = "40-60" THEN 2
+				WHEN transport.length = "more than 60" THEN 3
+			END AS translength_point
+	FROM users
+	JOIN waste ON users.waste = waste.wasteid
+	JOIN food ON users.food = food.foodid
+	JOIN water ON users.water = water.waterid
+	JOIN building ON users.building = building.bid
+	JOIN transport ON users.transport = transport.transportid
+	);
+    
+	SELECT 		users.pid AS UserID, users.first_name AS FirstName, users.last_name AS LastName,
+				users.age AS Age, users.gender AS Sex, users.email AS Email, 
+                building.address AS Residence, building.eui AS EUI,
+				(tbags + recycle_point + disposable_point + 
+				plantbased_point + finishfood_point + meat_point +
+                total_water + eui_point + transmode_point + translength_point) AS EcoScore
+    FROM total_points
+    JOIN users ON total_points.pid = users.pid
+    JOIN building ON users.building = building.bid
+    ORDER BY EcoScore; 
+
+END//
+DELIMITER ;
+
+CALL total_score();
+
+DROP FUNCTION IF EXISTS avgScore;
+DELIMITER //
+CREATE FUNCTION avgScore()
+RETURNS INT DETERMINISTIC
+
+BEGIN
+	DECLARE result INT;
+    
+    SELECT AVG(tbags + recycle_point + disposable_point + 
+				plantbased_point + finishfood_point + meat_point +
+                total_water + eui_point + transmode_point + translength_point) INTO result 
+	FROM total_points;
+    
+    RETURN result;
+END//
+DELIMITER ;
+
+SELECT avgScore();
